@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>THE 7 WATERFALLS — Experiencia</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet" />
+    <style>
+    :root{
+        --bg:#0a1b14;
+        --bg-2:#0e2a1e;
+        --glass:rgba(255,255,255,.06);
+        --card:rgba(255,255,255,.08);
+        --text:#ffffff;
+        --muted:#ffffff;
+        --brand:#568b56;
+        --brand-2:#528852;
+        --accent:#2f5f2f;
+        --shadow:0 20px 60px rgba(0,0,0,.35);
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{
+        font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial;
+        background:
+        radial-gradient(1200px 600px at 10% -10%, #07402a 0%, transparent 60%),
+        radial-gradient(1200px 600px at 110% 10%, #05231a 0%, transparent 60%),
+        linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
+      color:var(--text);
+      overflow-x:hidden;
+    }
+
+    /* ========== LOADER ========== */
+    #loader{position:fixed;inset:0;background:linear-gradient(135deg,#030917 0%,#0b2b22 100%);display:grid;place-items:center;z-index:9999}
+    .spinner{width:68px;height:68px;border-radius:50%;border:6px solid rgba(255,255,255,.2);border-top-color:var(--accent);animation:spin 1s linear infinite;box-shadow:0 0 0 3px rgba(255,255,255,.03) inset}
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    /* ========== NAVBAR GLASS (transparente + blur) ========== */
+    .nav-wrap{position:fixed;inset:0 0 auto 0;z-index:999}
+    nav{
+      width:min(1100px,92%);
+      margin-inline:auto; margin-top:14px;
+      height:64px; display:flex; align-items:center; justify-content:space-between;
+      background:linear-gradient( to bottom, rgba(255,255,255,.12), rgba(255,255,255,.04) );
+      backdrop-filter:saturate(160%) blur(14px);
+      -webkit-backdrop-filter:saturate(160%) blur(14px);
+      border:1px solid rgba(255,255,255,.18);
+      border-radius:16px; padding:0 14px; box-shadow:var(--shadow);
+    }
+    .brand{display:flex;gap:10px;align-items:center;font-weight:800;letter-spacing:.5px}
+    .brand .dot{width:10px;height:10px;border-radius:999px;background:conic-gradient(from 0deg, var(--brand), var(--brand-2), var(--accent), var(--brand)); box-shadow:0 0 18px var(--brand)}
+    .links{display:flex;gap:22px;align-items:center}
+    .links a{position:relative;text-decoration:none;color:var(--text);font-weight:600;opacity:.9}
+    .links a::after{content:"";position:absolute;left:0;right:0;bottom:-8px;height:2px;border-radius:2px;transform:scaleX(0);transform-origin:left;background:linear-gradient(90deg,var(--brand),var(--brand-2));transition:transform .25s ease}
+    .links a:hover::after{transform:scaleX(1)}
+
+    /* ========== HERO con PARALLAX y arte (imagen creada) ========== */
+    header{
+        position:relative; height:100svh; display:grid; place-items:center; text-align:center; overflow:hidden;
+      isolation:isolate; /* asegura filtros correctos */
+    }
+    /* "Mi" imagen de cascada: SVG embebido como data-URI */
+    .hero-bg{
+        position:absolute; inset:-2% -2% 0 -2%; z-index:-2;
+        background-image:url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0nMTYwMCcgaGVpZ2h0PSc5MDAnIHZpZXdCb3g9JzAgMCAxNjAwIDkwMCcgeG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJz48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9J2cnIHgxPScwJyB5MT0nMCcgeDI9JzAnIHkyPScxJz48c3RvcCBvZmZzZXQ9JzAnIHN0b3AtY29sb3I9JyMwM2IxOWUnLz48c3RvcCBvZmZzZXQ9JzEnIHN0b3AtY29sb3I9JyMwOTM1MmEnLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0nMTYwMCcgaGVpZ2h0PSc5MDAnIGZpbGw9InVybCgjZykiLz48cGF0aCBkPSdNMCw3MDBTMTQwLDYwMCAzMjAsNjAwYzE4MCwwIDIxMCw5MCAzNjAsOTAgMTUwLDAgMTgwLTkwIDM2MC05MCAxODAsMCAzMjAsMTAwIDMyMCwxMDBWNTAwSDBWNzAweiIgZmlsbD0nIzBhMjkxNCcgb3BhY2l0eT0nMC43Jy8+PHJlY3QgeD0nNzAwJyB5PScxNTAiIHdpZHRoPScyMScgaGVpZ2h0PSc2MDAnIGZpbGw9JyNmZmZmZmYnIG9wYWNpdHk9Jy44Jy8+PHJlY3QgeD0nNzIxJyB5PScxNTAiIHdpZHRoPScxNjAnIGhlaWdodD0nNjAwJyBmaWxsPScjZWZmJyBvcGFjaXR5PScuNDUnLz48cmVjdCB4PSc4ODEnIHk9JzE1MCcgd2lkdGg9JzI0JyBoZWlnaHQ9JzYwMCcgZmlsbD0nI2ZmZmZmZicgb3BhY2l0eT0nLjknLz48Y2lyY2xlIGN4PSc5NjAnIGN5PSc2Nycgcj0nNTQnIGZpbGw9JyNmZmYnIG9wYWNpdHk9Jy4yJy8+PGNpcmNsZSBjeD0nODAwJyBjeT0nMTMwJyByPSczMicgZmlsbD0nI2ZmZicgb3BhY2l0eT0nLjE1Jy8+PC9zdmc+");
+        background-size:cover; background-position:center; filter:contrast(105%) saturate(110%);
+    }
+    /* capas de niebla/motas para parallax */
+    .layer{position:absolute; inset:0; pointer-events:none}
+    .mist{background:radial-gradient(600px 160px at 20% 80%, rgba(255,255,255,.10), transparent 70%), radial-gradient(700px 220px at 70% 20%, rgba(255,255,255,.08), transparent 70%)}
+    .stars{background-image:radial-gradient(rgba(255,255,255,.7) 1px, transparent 1px); background-size:3px 3px; opacity:.18}
+
+    .hero-content{position:relative; z-index:2; padding:0 1rem}
+    .hero-content h1{font-size:clamp(2.4rem,5vw,4.4rem); line-height:1.05; font-weight:800; text-shadow:0 8px 40px rgba(0,0,0,.55)}
+    .hero-content p{max-width:760px;margin:.8rem auto 1.2rem; font-weight:400; color:var(--muted)}
+
+    /* ========== Botón futurista ========== */
+    .btn{
+      --ring: drop-shadow(0 0 10px rgba(0, 105, 23, 0.8)) drop-shadow(0 0 26px rgba(0,194,255,.6));
+      position:relative; display:inline-grid; place-items:center; gap:.5rem;
+      padding:14px 28px; border-radius:999px; font-weight:700; letter-spacing:.4px;
+      background:linear-gradient(90deg,var(--brand) 0%, var(--brand-2) 50%, var(--accent) 100%);
+      color:#00110a; border:none; cursor:pointer; box-shadow:var(--shadow);
+      filter:var(--ring); transition:transform .25s ease, filter .25s ease;
+    }
+    .btn::before{content:""; position:absolute; inset:2px; border-radius:999px; background:linear-gradient(180deg,rgba(255,255,255,.85), rgba(255,255,255,.25)); mix-blend:overlay; opacity:.35};
+    .btn:hover{transform:translateY(-2px) scale(1.03)}
+    .btn:active{transform:translateY(0) scale(.99)}
+    .btn .pulse{position:absolute; inset:-2px; border-radius:999px; border:2px solid rgba(107,241,199,.55); filter:blur(3px); opacity:.0; animation:pulse 2.4s ease-in-out infinite}
+    @keyframes pulse{0%{opacity:.0; transform:scale(.8)} 50%{opacity:.5; transform:scale(1.1)} 100%{opacity:0; transform:scale(1.25)}}
+
+    /* ========== Secciones ========== */
+    section{padding:96px 4vw}
+    .title{font-size:clamp(1.8rem,3.8vw,2.8rem); font-weight:800; text-align:center; margin-bottom:44px}
+
+    .video-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 0;
+}
+
+.video-container video {
+  width: 80%;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0,4);
+  
+}
+
+.video-container video {
+  /* Establece un ancho máximo para que el video no se salga de los límites de la página */
+  max-width: 120%;
+  
+  /* Mantiene la relación de aspecto del video para que se vea bien */
+  height:max-content
+}
+
+    /* Galería horizontal con tarjetas */
+.galeria-horizontal {
+  display: grid;
+  gap: 28px;
+}
+
+.galeria-horizontal .item {
+  display: flex;
+  gap: 22px;
+  align-items: center;
+  background: var(--glass);
+  border: 1px solid rgba(255, 255, 255, .12);
+  border-radius: 18px;
+  padding: 18px;
+  box-shadow: var(--shadow);
+  transition: transform .3s ease;
+}
+.galeria-horizontal .item:hover {
+  transform: translateY(-6px);
+}
+
+.galeria-horizontal img {
+  width: 280px;
+  height: 190px;
+  object-fit: cover;
+  border-radius: 14px;
+}
+
+.galeria-horizontal .texto {
+  flex: 1;
+}
+
+.galeria-horizontal h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.galeria-horizontal p {
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* Responsivo para móviles */
+@media (max-width: 768px) {
+  .galeria-horizontal .item {
+    flex-direction: column;
+    text-align: center;
+  }
+  .galeria-horizontal img {
+    width: 100%;
+    height: auto;
+  }
+}
+
+    /* ========== Info cards ========== */
+    .info{display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:24px}
+    .info-card{background:var(--glass); border:1px solid rgba(255,255,255,.12); border-radius:18px; padding:26px; box-shadow:var(--shadow); transform:translateZ(0); transition:transform .4s ease}
+    .info-card:hover{transform:translateY(-8px)}
+    .info-card h3{font-weight:800; margin-bottom:8px}
+    .info-card p{color:var(--muted)}
+
+    /* ========== Lightbox ========== */
+    #lightbox{position:fixed; inset:0; display:grid; place-items:center; background:rgba(0,0,0,.85); opacity:0; visibility:hidden; transition:.3s ease; z-index:10000}
+    #lightbox.active{opacity:1; visibility:visible}
+    #lightbox img{max-width:min(92vw,1100px); max-height:80vh; border-radius:14px; box-shadow:var(--shadow)}
+
+    /* ========== Footer ========== */
+    footer{padding:34px 4vw 50px; background:rgba(0,0,0,.5); border-top:1px solid rgba(255,255,255,.12); text-align:center}
+    .social{display:flex; justify-content:center; gap:16px; margin-top:8px}
+    .social a{display:grid; place-items:center; width:40px; height:40px; border-radius:12px; text-decoration:none; color:var(--text); background:var(--glass); border:1px solid rgba(255,255,255,.1)}
+
+    /* ========== Helpers ========== */
+    @media (max-width: 768px){ nav{height:58px} .links{gap:14px} .links a{font-size:.95rem} }
+    @media (prefers-reduced-motion: reduce){
+      *{animation:none !important; transition:none !important}
+      .stars,.mist{display:none}
+    }
+    /* evita que el header quede tapado por el nav al hacer scroll a anclas */
+    :target{scroll-margin-top:90px}
+  </style>
+</head>
+<body>
+
+  <!-- ========== LOADER ========== -->
+  <div id="loader"><div class="spinner" aria-hidden="true"></div></div>
+
+  <!-- ========== NAV ========== -->
+  <div class="nav-wrap" aria-hidden="false">
+    <nav role="navigation" aria-label="Principal">
+      <div class="brand"><span class="dot"></span> THE 7 WATERFALLS</div>
+      <div class="links">
+        <a href="#inicio">Start</a>
+        <a href="#galeria">Gallery</a>
+        <a href="#info">Information</a>
+        <a href="#contacto">Location</a>
+      </div>
+    </nav>
+  </div>
+
+  <!-- ========== HERO / PARALLAX ========== -->
+  <header id="inicio" aria-label="Portada: cascada" data-parallax>
+    <div class="hero-bg" data-depth="0.15"></div>
+    <div class="layer mist" data-depth="0.25" aria-hidden="true"></div>
+    <div class="layer stars" data-depth="0.05" aria-hidden="true"></div>
+
+    <div class="hero-content">
+      <h1>Explore the 7 Juayúa Waterfalls</h1>
+      <p>An immersive tour of Juayúa and Apaneca: nature, adventure, and the eternal sound of water.
+    </p>
+      <button class="btn" onclick="document.getElementById('galeria').scrollIntoView({behavior:'smooth'})">
+        <span class="pulse" aria-hidden="true"></span>
+        Explore now
+      </button>
+    </div>
+  </header>
+
+
+  <div class="video-container">
+  <video src="VID-20250825-WA0005.mp4" controls></video>
+</div>
+  
+}
+  <!-- ========== GALERÍA ========== -->
+<section id="galeria" aria-label="Galería turística">
+  <h2 class="title">Tourist gallery</h2>
+  <div class="galeria-horizontal">
+    <div class="item reveal">
+      <img src="Cascada 1.jpg" alt="Cascada" loading="lazy" />
+      <div class="texto">
+        <h3>WATERFALL 1</h3>
+        <p><h2>"El Bebedero"</h2>
+        Description: This first waterfall appears as an elegant curtain of water cascading down a black, mossy rock face. The drop isn't steep,
+        but its beauty lies in the texture of the rock and the jungle setting. The reflection of the water creates a serene atmosphere,
+        ideal for beginning the adventure with tranquility and connection with nature..</p>
+      </div>
+    </div>
+
+    <div class="item reveal">
+      <img src="Cascada 2.webp" alt="Iglesia de Juayúa" loading="lazy" />
+      <div class="texto">
+        <h3>WATERFALL 2</h3>
+        <p><h2>“Cascada Seca” (El Bejuco)</h2>
+        Description: Although its flow is minimal, this waterfall has a history: it feeds the local community.
+        Its greatest significance is cultural and environmental, as it demonstrates how the environment impacts the lives of those who live nearby.
+        The guide often highlights its function as a water source and the value of conserving the surrounding ecosystems.</p>
+      </div>
+    </div>
+
+    <div class="item reveal">
+      <img src="Cascada 3.jpg" alt="Bosque nuboso" loading="lazy" />
+      <div class="texto">
+        <h3>WATERFALL 3</h3>
+        <p><h2>“El Arcoíris”</h2>
+        Description: This waterfall stands out for its thin veil of water that, when the light hits it in a certain way, 
+        forms beautiful rainbows over the rocky bottom. People can get close and feel the spray on their skin; the reflection of the natural tones of the forest and the water creates a magical atmosphere.</p>
+      </div>
+    </div>
+
+    <div class="item reveal">
+      <img src="Tour-de-las-7-cascadas-Juayua3E3A2929.jpg" alt="Montañas" loading="lazy" />
+      <div class="texto">
+        <h3>WATERFALL 4</h3>
+        <p><h2>“La Escalada”</h2>
+        Description: Here begins the most exciting part: a tall, fast-flowing waterfall that requires climbing with a rope provided by the guides. 
+        It is estimated to reach a height of about 40 meters. Energy and adrenaline increase as you overcome this section, 
+        while the water sprays hikers who strive to conquer this stage of the trail.</p>
+      </div>
+    </div>
+
+    <div class="item reveal">
+      <img src="Cascada 5.webp" alt="Parque" loading="lazy" />
+      <div class="texto">
+        <h3>WATERFALL 5</h3>
+        <p><h2>“La Caverna”</h2>
+        Description: This waterfall is distinguished by its cascading waterfall, which falls directly into a cave or rocky cavity. 
+        Visitors can enter behind the veil of water and observe the landscape from within, creating a unique and entertaining experience. 
+        The sound reverberates within the cavern, enveloping visitors in a magical and refreshing atmosphere. It is one of the most photographed spots on the route.</p>
+      </div>
+    </div>
+
+    <div class="item reveal">
+      <img src="Cascada 6.webp" alt="Parque" loading="lazy" />
+      <div class="texto">
+        <h3>WATERFALL 6</h3>
+        <p><h2>“El Tobogán”</h2>
+        Description: It gets its name because the water gently cascades down a sloping rock, forming a natural slide. Many hikers take advantage of the opportunity to slide across the wet surface, turning it into an interactive,
+        adrenaline-filled waterfall. A clear, deep pool forms at its foot, ideal for swimming and relaxing.</p>
+      </div>
+    </div>
+
+    <div class="item reveal">
+      <img src="Cascada 7.jpg" alt="Parque" loading="lazy" />
+      <div class="texto">
+        <h3>WATERFALL 7</h3>
+        <p><h2>“La Corona”</h2>
+        Description: The last and most impressive waterfall on the route, called "The Crown" because it symbolizes the culmination of the challenge. 
+        Its drop is high, wide, and powerful, surrounded by green walls and abundant vegetation. Guides often stop here to celebrate the feat of completing all seven waterfalls. 
+        It's the perfect place to rest, take photos, and enjoy the scenery before returning.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+  <!-- ========== INFO ========== -->
+  <section id="info" aria-label="Información">
+    <h2 class="title">Useful information</h2>
+    <div class="info">
+      <article class="info-card reveal">
+        <h3>7 Waterfall Tours</h3>
+        <p>El Salvador, a moderately challenging, guided adventure of approximately 5 km that follows a waterfall circuit amidst lush vegetation, 
+          includes river crossings and climbing some of the falls. It's a popular activity for enjoying nature, swimming in pools, and experiencing the unique atmosphere of the Flower Route.</p>
+      </article>
+  
+      <article class="info-card reveal">
+        <h3>Local gastronomy</h3>
+        <p>"(The 7 Waterfalls) depends on the specific location, as there is no single site with that name. However, if you're referring to the 7 Cascadas (7 Waterfalls) of Juayúa, El Salvador,
+you can expect to try typical Salvadoran dishes in town, such as pupusas and dishes based on fresh regional produce. </p>
+      </article>
+    </div>
+  </section>
+
+  <div style="display: flex; justify-content: center; margin: 20px 0;">
+  <iframe 
+    src="https://www.google.com/maps?q=Las+Siete+Cascadas,+Juay%C3%BAa,+El+Salvador&output=embed" 
+    width="800" 
+    height="500" 
+    style="border:0; border-radius:15px; box-shadow: 0 4px 15px rgba(0,0,0,0.3);" 
+    allowfullscreen="" 
+    loading="lazy" 
+    referrerpolicy="no-referrer-when-downgrade">
+  </iframe>
+</div>
+
+
+
+  <!-- ========== LIGHTBOX ========== -->
+  <div id="lightbox" aria-modal="true" role="dialog" aria-label="Imagen ampliada"><img src="" alt="Imagen ampliada"></div>
+
+  <!-- ========== FOOTER ========== -->
+  <footer id="contacto">
+    <p>&copy; 2025 Turismo El Salvador</p>
+    <p>Contacto: <a href="mailto:info@turismo.com" style="color:var(--accent)">info@turismo.com</a></p>
+    <div class="social" aria-label="Redes Sociales">
+      <a href="#" aria-label="Sitio web">🌐</a>
+      <a href="#" aria-label="Facebook">📘</a>
+      <a href="#" aria-label="Instagram">📷</a>
+    </div>
+  </footer>
+
+  <!-- ========== Librería ScrollReveal ========== -->
+  <script src="https://unpkg.com/scrollreveal"></script>
+  <script>
+    /* ===== LOADER ===== */
+    window.addEventListener('load', () => {
+      const loader = document.getElementById('loader');
+      loader.style.opacity = '0';
+      setTimeout(()=> loader.remove(), 300);
+    });
+
+    /* ===== LIGHTBOX ===== */
+    const lightbox = document.getElementById('lightbox');
+    const lightImg = lightbox.querySelector('img');
+    document.querySelectorAll('.galeria img').forEach(img => {
+      img.addEventListener('click', () => {
+        lightImg.src = img.src; lightImg.alt = img.alt;
+        lightbox.classList.add('active');
+      });
+    });
+    lightbox.addEventListener('click', (e) => {
+      if(e.target === lightbox) lightbox.classList.remove('active');
+    });
+    window.addEventListener('keydown', (e)=>{ if(e.key==='Escape') lightbox.classList.remove('active') });
+
+    /* ===== ScrollReveal (reveal + stagger) ===== */
+    const sr = ScrollReveal({ distance: '50px', duration: 900, easing: 'cubic-bezier(.2,.7,.2,1)', cleanup:true });
+    sr.reveal('.title', { origin:'top', opacity:0 });
+    sr.reveal('.galeria .card', { interval: 120, scale: 0.94, opacity: 0 });
+    sr.reveal('.info-card', { interval: 140, origin: 'bottom', opacity: 0 });
+
+    /* ===== Parallax suave (scroll y mouse) ===== */
+    const parallaxRoot = document.querySelector('[data-parallax]');
+    const layers = [...document.querySelectorAll('[data-depth]')];
+
+    function applyParallax(xRatio, yRatio){
+      layers.forEach(el => {
+        const d = parseFloat(el.dataset.depth || 0.1);
+        const tx = (xRatio - .5) * 30 * d; // movimiento horizontal por mouse
+        const ty = (yRatio - .5) * 20 * d; // movimiento vertical por mouse
+        el.style.transform = `translate3d(${tx}px, ${ty}px, 0)`;
+      });
+    }
+    window.addEventListener('mousemove', (e)=>{
+      const r = parallaxRoot.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width;
+      const y = (e.clientY - r.top) / r.height;
+      applyParallax(x, y);
+    });
+
+    // desplazamiento con scroll (parallax y desvanecido del header)
+    const hero = document.getElementById('inicio');
+    const heroContent = hero.querySelector('.hero-content');
+    window.addEventListener('scroll', () => {
+      const y = window.scrollY || window.pageYOffset;
+      const slow = y * 0.15; // factor parallax
+      hero.style.transform = `translateY(${slow * -0.2}px)`;
+      heroContent.style.transform = `translateY(${Math.min(y*0.12, 60)}px)`;
+      heroContent.style.opacity = String(Math.max(1 - y/550, 0.1));
+    }, { passive:true });
+
+    /* ===== Pequeñas mejoras de accesibilidad ===== */
+    // foco visible en teclado
+    document.addEventListener('keydown', (e)=>{
+      if(e.key === 'Tab') document.body.classList.add('show-focus');
+    });
+  </script>
+</body>
+</html>
